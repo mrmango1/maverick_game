@@ -2,12 +2,13 @@ import pygame
 from pygame.sprite import Sprite, Group
 from models.bullet import Bullet
 
-BULLET_IMAGE = "assets/misil/default.png"
+BULLET_IMAGE = "assets/misil/ecuador.png"
 
 # create jet class
 class Jet(Sprite):
     def __init__(self, JET_IMAGE: str, HEIGHT: int) -> None:
         super().__init__()
+        self.image_path = JET_IMAGE
         self.image = pygame.image.load(JET_IMAGE)
         self.image = pygame.transform.scale(self.image, (150, 43))
         self.rect = self.image.get_rect()
@@ -15,6 +16,7 @@ class Jet(Sprite):
         self.height = HEIGHT
         self.x = self.rect.centerx
         self.y = self.rect.centery
+        self.isCharge = True
 
 
 class JetPlayer(Jet):
@@ -34,9 +36,17 @@ class JetPlayer(Jet):
                 self.speed_y = 5
         self.rect.y += self.speed_y
 
-    def shoot(self, bullets: Group) -> None:
+    def shoot(self) -> Bullet:
+        self.isCharge = not self.isCharge
+        self.image = pygame.image.load(self.haveMisil(self.isCharge))
+        self.image = pygame.transform.scale(self.image, (150, 43))
         bullet = Bullet(BULLET_IMAGE, self.rect.centerx, self.rect.centery)
-        bullets.add(bullet)
+        return bullet
+
+    def haveMisil(self, true) -> str:
+        self.jetWithMisil = self.image_path
+        self.jetNoMisil = self.image_path.replace("jetWithMisil", "jetNoMisil")
+        return self.jetWithMisil if true else self.jetNoMisil
 
 
 class JetEnemy(Jet):
@@ -53,7 +63,6 @@ class JetEnemy(Jet):
             self.rect.y += self.speedy
         else:
             self.rect.y -= self.speedy
-
         if self.rect.top <= 0:
             self.move = True
         if self.rect.bottom >= self.height - 50:
