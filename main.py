@@ -1,5 +1,6 @@
 import math, random, pygame
 from models.jet import JetPlayer, JetEnemy
+from game.window import Window
 
 pygame.init()
 
@@ -8,27 +9,18 @@ FPS = 60
 
 SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 600
+GAME_CAPTION = "Maverick"
 JET_DEFAULT = "assets/jetWithMisil/default.png"
 JET_WAR = "assets/jetWithMisil/war.png"
 JET_ECUADOR = "assets/jetWithMisil/ecuador.png"
 
-
 # Create windows
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+window = Window(SCREEN_WIDTH, SCREEN_HEIGHT, GAME_CAPTION)
+window.printboard()
 pygame.display.set_caption("Maverick")
+screen = window.screen()
 
-# Load image
-bg = pygame.image.load("assets/background/default.jpg").convert()
-bg = pygame.transform.scale(bg, (SCREEN_WIDTH, SCREEN_HEIGHT))
-bg_width = bg.get_width()
-bg_rect = bg.get_rect()
-
-# Define variables
-
-scroll = 0
-tiles = math.ceil(SCREEN_WIDTH / bg_width) + 1
-
-
+# Instance models and create sprite groups
 player = pygame.sprite.Group()
 enemys = pygame.sprite.Group()
 all_sprites = pygame.sprite.Group()
@@ -42,21 +34,14 @@ all_sprites.add(enemys)
 run = True
 while run:
     clock.tick(FPS)
-    # draw scrolling background
-    for i in range(0, tiles):
-        screen.blit(bg, (i * bg_width + scroll, 0))
-        bg_rect.x = i * bg_width + scroll
-    # scroll background
-    scroll -= 1
-    # reset scroll
-    if abs(scroll) > bg_width:
-        scroll = 0
-    all_sprites.update()
+    window.background_move()
 
+    all_sprites.update()
     hits = pygame.sprite.groupcollide(player, enemys, True, True)
-    for hit in hits:
+    if hits:
         testene = JetEnemy(JET_WAR, SCREEN_HEIGHT, SCREEN_WIDTH)
         enemys.add(testene)
+        all_sprites.add(testene)
 
     all_sprites.draw(screen)
     # Event handler
