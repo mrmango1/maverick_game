@@ -14,7 +14,7 @@ class Window:
         self.caption = caption
         self.scroll = 0
 
-    def printboard(self) -> display:
+    def printboard(self) -> None:
         self.window = display.set_mode((self.sw, self.sh))
         self.window.fill(Window.WHITE)
         display.set_caption(self.caption)
@@ -26,7 +26,7 @@ class Window:
         for i in range(2):
             self.window.blit(self.bg, (i * self.sw + self.scroll, 0))
             self.bg_rect.x = i * self.sw + self.scroll
-        self.scroll -= 1
+        self.scroll -= 2
         # reset scroll
         if abs(self.scroll) > self.sw:
             self.scroll = 0

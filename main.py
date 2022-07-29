@@ -1,6 +1,7 @@
 import math, random, pygame
 from models.jet import JetPlayer, JetEnemy
 from game.window import Window
+from time import sleep
 
 pygame.init()
 
@@ -24,11 +25,14 @@ screen = window.screen()
 player = pygame.sprite.Group()
 enemys = pygame.sprite.Group()
 all_sprites = pygame.sprite.Group()
-jetPlayer = JetPlayer(JET_ECUADOR, SCREEN_HEIGHT)
+player_list = [player, all_sprites]
+jetPlayer = JetPlayer(JET_ECUADOR, SCREEN_HEIGHT, player_list)
 jetEnemy = JetEnemy(JET_WAR, SCREEN_HEIGHT, SCREEN_WIDTH)
+
 player.add(jetPlayer)
 enemys.add(jetEnemy)
-all_sprites.add(jetPlayer)
+
+all_sprites.add(player)
 all_sprites.add(enemys)
 
 run = True
@@ -48,11 +52,6 @@ while run:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:
-                bullet = jetPlayer.shoot()
-                all_sprites.add(bullet)
-                player.add(bullet)
     pygame.display.update()
 
 pygame.quit()
