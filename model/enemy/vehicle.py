@@ -2,20 +2,20 @@ import pygame
 import random
 from pygame.time import get_ticks
 from model.bullet import Bullet
-from model.model import Vehicle
+from model.object import Vehicle
 
-BULLET_IMAGE = "assets/misil/ecuador.png"
+BULLET_IMAGE = "assets/missile/ecuador.png"
 
 
 class VehicleEnemy(Vehicle):
     """Enemy vehicle father class
-    Enemy vehicles that operate independient with maching learning or other player
+    Enemy vehicles that operate independent with machine learning or other player
     Args:
-        Vehicle (_type_): This class is the father of all enemy vehicle classes
+        model.model.Vehicle (_type_): This class is the father of all enemy vehicle classes
     """
 
-    def __init__(self, JET_IMAGE: str, sprite_groups: list) -> None:
-        super().__init__(JET_IMAGE, sprite_groups)
+    def __init__(self, jet_image: str, sprite_groups: list) -> None:
+        super().__init__(jet_image, sprite_groups)
         self.image = pygame.transform.scale(self.image, (150, 43))
         self.rect = self.image.get_rect()
         self.speedy = 3

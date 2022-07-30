@@ -1,14 +1,17 @@
 import pygame
 from pygame.time import get_ticks
 from model.bullet import Bullet
-from model.model import Vehicle
+from model.object import Vehicle
 
-BULLET_IMAGE = "assets/misil/ecuador.png"
+BULLET_IMAGE = "assets/missile/ecuador.png"
 
 
 class VehiclePlayer(Vehicle):
-    def __init__(self, IMAGE_PATH: str, spriteGroups: list) -> None:
-        super().__init__(IMAGE_PATH, spriteGroups)
+    def __init__(self, image_path: str, sprite_groups: list) -> None:
+        super().__init__(image_path, sprite_groups)
+        self.speed_y = 0
+        self.jetWithMissile = self.imagePath
+        self.jetWithoutMissile = self.imagePath.replace("jetWithMissile", "jetWithoutMissile")
 
     def update(self) -> None:
         self.now = get_ticks()
@@ -16,35 +19,33 @@ class VehiclePlayer(Vehicle):
             self.isCharge = False
         else:
             self.isCharge = True
-        self.image = pygame.image.load(self.have_misil(self.isCharge))
+        self.image = pygame.image.load(self.have_missile(self.isCharge))
         self.image = pygame.transform.scale(self.image, (150, 43))
-        self.speed_y = 0
         self.action()
 
     def action(self) -> None:
-        keystate = pygame.key.get_pressed()
+        pressed_key = pygame.key.get_pressed()
         # Move up
         if self.rect.y > 0:
-            if keystate[pygame.K_UP]:
+            if pressed_key[pygame.K_UP]:
                 self.speed_y = -5
         # Move down
         if self.rect.y < self.height - 100:
-            if keystate[pygame.K_DOWN]:
+            if pressed_key[pygame.K_DOWN]:
                 self.speed_y = 5
         # Shoot
         if self.isCharge:
-            if keystate[pygame.K_SPACE]:
+            if pressed_key[pygame.K_SPACE]:
                 bullet = self.shoot()
                 for group in self.spriteGroups:
                     group.add(bullet)
         self.rect.y += self.speed_y
+        self.speed_y = 0
 
     def shoot(self) -> Bullet:
         self.last = self.now
         bullet = Bullet(BULLET_IMAGE, self.rect.centerx, self.rect.centery)
         return bullet
 
-    def have_misil(self, true) -> str:
-        self.jetWithMisil = self.imagePath
-        self.jetNoMisil = self.imagePath.replace("jetWithMisil", "jetNoMisil")
-        return self.jetWithMisil if true else self.jetNoMisil
+    def have_missile(self, true) -> str:
+        return self.jetWithMissile if true else self.jetWithoutMissile
