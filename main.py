@@ -1,5 +1,6 @@
 import math, random, pygame
-from models.jet import JetPlayer, JetEnemy
+from models.player.jet import JetPlayer
+from models.enemy.jet import JetEnemy
 from game.window import Window
 from time import sleep
 
@@ -10,13 +11,14 @@ FPS = 60
 
 SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 600
+SCREEN_SIZE = (1200, 600)
 GAME_CAPTION = "Maverick"
 JET_DEFAULT = "assets/jetWithMisil/default.png"
 JET_WAR = "assets/jetWithMisil/war.png"
 JET_ECUADOR = "assets/jetWithMisil/ecuador.png"
 
 # Create windows
-window = Window(SCREEN_WIDTH, SCREEN_HEIGHT, GAME_CAPTION)
+window = Window(GAME_CAPTION)
 window.printboard()
 pygame.display.set_caption("Maverick")
 screen = window.screen()
@@ -26,8 +28,9 @@ player = pygame.sprite.Group()
 enemys = pygame.sprite.Group()
 all_sprites = pygame.sprite.Group()
 player_list = [player, all_sprites]
+enemy_list = [enemys, all_sprites]
 jetPlayer = JetPlayer(JET_ECUADOR, SCREEN_HEIGHT, player_list)
-jetEnemy = JetEnemy(JET_WAR, SCREEN_HEIGHT, SCREEN_WIDTH)
+jetEnemy = JetEnemy(JET_WAR, enemy_list)
 
 player.add(jetPlayer)
 enemys.add(jetEnemy)
@@ -43,9 +46,9 @@ while run:
     all_sprites.update()
     hits = pygame.sprite.groupcollide(player, enemys, True, True)
     if hits:
-        testene = JetEnemy(JET_WAR, SCREEN_HEIGHT, SCREEN_WIDTH)
-        enemys.add(testene)
-        all_sprites.add(testene)
+        jetEnemy = JetEnemy(JET_WAR, enemy_list)
+        enemys.add(jetEnemy)
+        all_sprites.add(jetEnemy)
 
     all_sprites.draw(screen)
     # Event handler

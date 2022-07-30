@@ -1,34 +1,14 @@
 import pygame
-import random
 from pygame.time import get_ticks
-from pygame.sprite import Sprite, Group
 from models.bullet import Bullet
+from models.model import Vehicle
 
 BULLET_IMAGE = "assets/misil/ecuador.png"
 
-# create jet class
-class Jet(Sprite):
-    def __init__(self, JET_IMAGE: str, HEIGHT: int) -> None:
-        super().__init__()
-        self.image_path = JET_IMAGE
-        self.image = pygame.image.load(JET_IMAGE)
-        self.image = pygame.transform.scale(self.image, (150, 43))
-        self.rect = self.image.get_rect()
-        self.rect.bottom = HEIGHT // 2
-        self.height = HEIGHT
-        self.y = self.rect.centery
-        self.last = 0
-        self.now = get_ticks()
-        self.cooldown = 1000
-        self.isCharge = True
 
-
-class JetPlayer(Jet):
-    def __init__(self, JET_IMAGE: str, HEIGHT: int, sprite_groups: list) -> None:
-        super().__init__(JET_IMAGE, HEIGHT)
-        self.speed_y = 0
-        self.rect.centerx = 100
-        self.sprite_groups = sprite_groups
+class VehiclePlayer(Vehicle):
+    def __init__(self, IMAGE_PATH: str, spriteGroups: list) -> None:
+        super().__init__(IMAGE_PATH, spriteGroups)
 
     def update(self) -> None:
         self.now = get_ticks()
@@ -68,24 +48,3 @@ class JetPlayer(Jet):
         self.jetWithMisil = self.image_path
         self.jetNoMisil = self.image_path.replace("jetWithMisil", "jetNoMisil")
         return self.jetWithMisil if true else self.jetNoMisil
-
-
-class JetEnemy(Jet):
-    def __init__(self, JET_IMAGE: str, HEIGHT: int, WIDTH: int) -> None:
-        super().__init__(JET_IMAGE, HEIGHT)
-        self.speed_y = 1
-        self.rect.centerx = WIDTH - 100
-        self.width = WIDTH
-        self.speedy = 3
-        self.move = True
-        self.rect.bottom = random.randint(0, HEIGHT)
-
-    def update(self):
-        if self.move:
-            self.rect.y += self.speedy
-        else:
-            self.rect.y -= self.speedy
-        if self.rect.top <= 0:
-            self.move = True
-        if self.rect.bottom >= self.height - 50:
-            self.move = False
