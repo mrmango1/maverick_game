@@ -1,6 +1,7 @@
 import math, random, pygame
 from model.player.jet import JetPlayer
 from model.enemy.jet import JetEnemy
+from model.bullet import Bullet
 from game.window import Window
 from time import sleep
 
@@ -44,10 +45,13 @@ while run:
 
     all_sprites.update()
     hits = pygame.sprite.groupcollide(player, enemys, True, True)
-    if hits:
-        jetEnemy = JetEnemy(JET_WAR, enemy_list)
-        enemys.add(jetEnemy)
-        all_sprites.add(jetEnemy)
+    for first, second in hits.items():
+        if type(first) != type(second[0]) and type(first) != type(jetPlayer):
+            jetEnemy = JetEnemy(JET_WAR, enemy_list)
+            enemys.add(jetEnemy)
+            all_sprites.add(jetEnemy)
+        if type(first) == type(jetPlayer):
+            run = False
 
     all_sprites.draw(screen)
     # Event handler
