@@ -9,9 +9,6 @@ pygame.init()
 clock = pygame.time.Clock()
 FPS = 60
 
-SCREEN_WIDTH = 1200
-SCREEN_HEIGHT = 600
-SCREEN_SIZE = (1200, 600)
 GAME_CAPTION = "Maverick"
 JET_DEFAULT = "assets/jetWithMisil/default.png"
 JET_WAR = "assets/jetWithMisil/war.png"
@@ -29,7 +26,7 @@ enemys = pygame.sprite.Group()
 all_sprites = pygame.sprite.Group()
 player_list = [player, all_sprites]
 enemy_list = [enemys, all_sprites]
-jetPlayer = JetPlayer(JET_ECUADOR, SCREEN_HEIGHT, player_list)
+jetPlayer = JetPlayer(JET_ECUADOR, player_list)
 jetEnemy = JetEnemy(JET_WAR, enemy_list)
 
 player.add(jetPlayer)

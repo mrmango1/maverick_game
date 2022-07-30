@@ -35,7 +35,7 @@ class VehiclePlayer(Vehicle):
         if self.isCharge:
             if keystate[pygame.K_SPACE]:
                 bullet = self.shoot()
-                for group in self.sprite_groups:
+                for group in self.spriteGroups:
                     group.add(bullet)
         self.rect.y += self.speed_y
 
@@ -45,6 +45,6 @@ class VehiclePlayer(Vehicle):
         return bullet
 
     def have_misil(self, true) -> str:
-        self.jetWithMisil = self.image_path
-        self.jetNoMisil = self.image_path.replace("jetWithMisil", "jetNoMisil")
+        self.jetWithMisil = self.imagePath
+        self.jetNoMisil = self.imagePath.replace("jetWithMisil", "jetNoMisil")
         return self.jetWithMisil if true else self.jetNoMisil

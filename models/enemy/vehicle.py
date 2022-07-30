@@ -4,6 +4,12 @@ from models.model import Vehicle
 
 
 class VehicleEnemy(Vehicle):
+    """Enemy vehicle father class
+    Enemy vehicles that operate independient with maching learning or other player
+    Args:
+        Vehicle (_type_): This class is the father of all enemy vehicle classes
+    """
+
     def __init__(self, JET_IMAGE: str, sprite_groups: list) -> None:
         super().__init__(JET_IMAGE, sprite_groups)
         self.image = pygame.transform.scale(self.image, (150, 43))
