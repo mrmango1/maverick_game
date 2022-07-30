@@ -21,6 +21,7 @@ class VehicleEnemy(Vehicle):
         self.speedy = 3
         self.move = True
         self.cooldown = random.randint(1000, 2000)
+        self.movimentAleatory = True
 
     def update(self):
         self.action()
@@ -33,9 +34,13 @@ class VehicleEnemy(Vehicle):
             self.rect.y -= self.speedy
         if self.rect.top <= 0:
             self.move = True
-        if self.rect.bottom >= self.height - 50:
+        elif self.rect.bottom >= self.height - 50:
             self.move = False
+        elif self.rect.top > 0 and self.rect.bottom < self.height - 50:
+            self.move = self.movimentAleatory
         if self.now - self.last > self.cooldown:
+            self.movimentAleatory = bool(random.getrandbits(1))
+            print(self.movimentAleatory)
             self.last = self.now
             bullet = self.shoot()
             for group in self.spriteGroups:
