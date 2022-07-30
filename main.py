@@ -1,6 +1,6 @@
 import math, random, pygame
-from models.player.jet import JetPlayer
-from models.enemy.jet import JetEnemy
+from model.player.jet import JetPlayer
+from model.enemy.jet import JetEnemy
 from game.window import Window
 from time import sleep
 
@@ -24,8 +24,10 @@ screen = window.screen()
 player = pygame.sprite.Group()
 enemys = pygame.sprite.Group()
 all_sprites = pygame.sprite.Group()
+
 player_list = [player, all_sprites]
 enemy_list = [enemys, all_sprites]
+
 jetPlayer = JetPlayer(JET_ECUADOR, player_list)
 jetEnemy = JetEnemy(JET_WAR, enemy_list)
 

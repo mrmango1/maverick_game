@@ -1,4 +1,4 @@
-from models.enemy.vehicle import VehicleEnemy
+from model.enemy.vehicle import VehicleEnemy
 import random
 
 

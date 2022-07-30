@@ -1,6 +1,10 @@
 import pygame
-from models.bullet import Bullet
-from models.model import Vehicle
+import random
+from pygame.time import get_ticks
+from model.bullet import Bullet
+from model.model import Vehicle
+
+BULLET_IMAGE = "assets/misil/ecuador.png"
 
 
 class VehicleEnemy(Vehicle):
@@ -16,8 +20,13 @@ class VehicleEnemy(Vehicle):
         self.rect = self.image.get_rect()
         self.speedy = 3
         self.move = True
+        self.cooldown = random.randint(1000, 2000)
 
     def update(self):
+        self.action()
+
+    def action(self):
+        self.now = get_ticks()
         if self.move:
             self.rect.y += self.speedy
         else:
@@ -26,3 +35,13 @@ class VehicleEnemy(Vehicle):
             self.move = True
         if self.rect.bottom >= self.height - 50:
             self.move = False
+        if self.now - self.last > self.cooldown:
+            self.last = self.now
+            bullet = self.shoot()
+            for group in self.spriteGroups:
+                group.add(bullet)
+
+    def shoot(self) -> Bullet:
+        self.last = self.now
+        bullet = Bullet(BULLET_IMAGE, self.rect.centerx, self.rect.centery, False)
+        return bullet

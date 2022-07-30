@@ -1,5 +1,5 @@
 import pygame
-from models.player.vehicle import VehiclePlayer
+from model.player.vehicle import VehiclePlayer
 
 
 class JetPlayer(VehiclePlayer):

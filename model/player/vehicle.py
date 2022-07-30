@@ -1,7 +1,7 @@
 import pygame
 from pygame.time import get_ticks
-from models.bullet import Bullet
-from models.model import Vehicle
+from model.bullet import Bullet
+from model.model import Vehicle
 
 BULLET_IMAGE = "assets/misil/ecuador.png"
 
