@@ -3,7 +3,7 @@ from pygame.time import get_ticks
 from model.bullet import Bullet
 from model.object import Vehicle
 
-BULLET_IMAGE = "assets/missile/ecuador.png"
+BULLET_IMAGE = "assets/playerMissile/ecuador.png"
 
 
 class VehiclePlayer(Vehicle):

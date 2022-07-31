@@ -1,7 +1,7 @@
 import pygame
 from pygame.sprite import Sprite
 from pygame.time import get_ticks
-from game.window import Window
+from game.settings import Settings
 
 
 class Vehicle(Sprite):
@@ -19,7 +19,7 @@ class Vehicle(Sprite):
             sprite_groups (list): All sprites group that this class belongs
         """
         super().__init__()
-        self.width, self.height = Window.SCREEN_WIDTH, Window.SCREEN_HEIGHT
+        self.width, self.height = Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT
         self.imagePath = image_path
         self.spriteGroups = sprite_groups
         self.image = pygame.image.load(image_path)
