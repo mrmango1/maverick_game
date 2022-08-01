@@ -1,9 +1,8 @@
 import random
+from pygame import font
 
 
 class Settings:
-    WHITE = (255, 255, 255)
-    BLACK = (0, 0, 0)
     SCREEN_WIDTH = 1200
     SCREEN_HEIGHT = 600
     FPS = 60
@@ -21,8 +20,23 @@ class Settings:
         self.background_rect = None
 
     def get_jet(self, jet: str) -> str:
+        """
+        This function takes a string as an argument and returns a string
+
+        :param jet: The name of the jet you want to use
+        :type jet: str
+        :return: The jetDefault string is being returned.
+        """
         return self.jetDefault.replace("default", jet)
 
     def get_aleatory_jet(self) -> str:
+        """
+        It returns a random jet from a list of jet variants
+        :return: The method is returning the jetDefault string, but replacing the word "default" with the randomJet string.
+        """
+
         self.randomJet = random.choice(self.jetVariants)
         return self.jetDefault.replace("default", self.randomJet)
+
+    def get_font(self, size: int):
+        return font.Font("assets/font/PixeloidMono.ttf", size)
