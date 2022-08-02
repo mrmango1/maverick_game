@@ -9,9 +9,8 @@ from game.button import Button
 
 
 class Maverick:
-    def __init__(self, game_screen: pygame.display) -> None:
+    def __init__(self) -> None:
         pygame.init()
-        self.game_screen = game_screen
         # Initialize Settings Class
         self.settings = Settings()
         # Initialize the loop variable
@@ -45,9 +44,9 @@ class Maverick:
         while self.run:
             self.__background_move()
             self.__menu_button()
-            self.__check_collisions()
+            lose = self.__check_collisions()
             backToMenu = self.__handle_events()
-            if backToMenu is not None:
+            if backToMenu is not None or lose is not None:
                 return backToMenu
         pygame.quit()
 
@@ -57,11 +56,12 @@ class Maverick:
                 self.run = False
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if self.buttonBack.checkForInput(self.mousePosition):
+                if self.buttonBack.check_for_input(self.mousePosition):
+                    self.run = False
                     return 0
         pygame.display.update()
 
-    def __check_collisions(self) -> None:
+    def __check_collisions(self) -> int:
         """
         It checks if the player collides with an enemy, if it does, it checks if the enemy is a jet, if it is,
         it creates a new jet enemy and adds it to the enemies group
@@ -74,8 +74,7 @@ class Maverick:
                 self.enemies.add(self.jetEnemy)
                 self.all_sprites.add(self.jetEnemy)
             if isinstance(first, type(self.jetPlayer)):
-                self.run = False
-                sys.exit()
+                self.game_over.run_menu(self.run_game)
         self.all_sprites.draw(self.game_screen)
 
     def __set_background(self, image_background: str) -> None:
@@ -105,11 +104,11 @@ class Maverick:
             self.scroll = 0
 
     def __menu_button(self) -> None:
-        self.mousePosition = pygame.mouse.get_pos()
+        self.mousePosition = pygame.mouse.get_pos()\
 
-        self.buttonBack = Button(image=None, pos=(40, 20),
-                                 text_input="BACK", font=self.settings.get_font(25), base_color="White",
+        self.buttonBack = Button(image=None, pos=(50, 20),
+                                 text_input="PAUSE", font=self.settings.get_font(25), base_color="White",
                                  hovering_color="Green")
 
-        self.buttonBack.changeColor(self.mousePosition)
+        self.buttonBack.change_color(self.mousePosition)
         self.buttonBack.update(self.game_screen)

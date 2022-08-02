@@ -32,7 +32,8 @@ class Settings:
     def get_aleatory_jet(self) -> str:
         """
         It returns a random jet from a list of jet variants
-        :return: The method is returning the jetDefault string, but replacing the word "default" with the randomJet string.
+        :return: The method is returning the jetDefault string, but replacing the word "default"
+         with the randomJet string.
         """
 
         self.randomJet = random.choice(self.jetVariants)
